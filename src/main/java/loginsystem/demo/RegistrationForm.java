@@ -5,11 +5,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
+/**
+ * Servlet implementation class RegistrationForm
+ */
 @WebServlet("/RegistrationForm")
 public class RegistrationForm extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -78,10 +78,6 @@ public class RegistrationForm extends HttpServlet {
                         font-size: 16px;
                         margin-bottom: 5px;
                     }
-                    .form-container select {
-                        color: #000;
-                        background-color: rgba(255, 255, 255, 1);
-                    }
                     @keyframes fadeIn { 
                         from { opacity: 0; } 
                         to { opacity: 1; }
@@ -122,34 +118,20 @@ public class RegistrationForm extends HttpServlet {
         String gender = request.getParameter("gender");
         String address = request.getParameter("address");
 
-        // Hash the password before storing it
-        String hashedPassword = hashPassword(password);
-
         // Store user details in session
-        HttpSession session = request.getSession();
-        session.setAttribute("fullname", fullname);
-        session.setAttribute("email", email);
-        session.setAttribute("hashedPassword", hashedPassword); // Secure storage
-        session.setAttribute("gender", gender);
-        session.setAttribute("address", address);
+        request.getSession().setAttribute("fullname", fullname);
+        request.getSession().setAttribute("email", email);
+        request.getSession().setAttribute("password", password);
+        request.getSession().setAttribute("gender", gender);
+        request.getSession().setAttribute("address", address);
 
-        // Forward to a JSP page
-        request.setAttribute("message", "Registration Successful!");
-        request.getRequestDispatcher("success.jsp").forward(request, response);
-    }
-
-    // Method to hash password using SHA-256
-    private String hashPassword(String password) {
-        try {
-            MessageDigest md = MessageDigest.getInstance("SHA-256");
-            byte[] hashedBytes = md.digest(password.getBytes());
-            StringBuilder sb = new StringBuilder();
-            for (byte b : hashedBytes) {
-                sb.append(String.format("%02x", b));
-            }
-            return sb.toString();
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("Error hashing password", e);
-        }
+        response.setContentType("text/html");
+        response.getWriter().write("""
+            <body>
+                <h2>Registration Successful!</h2>
+                <a href="login.html">Go to Login</a>
+            </body>
+        """);
     }
 }
+
