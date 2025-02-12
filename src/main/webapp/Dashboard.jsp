@@ -78,9 +78,6 @@
             <span>Email:</span> <span><%= request.getSession().getAttribute("email") %></span>
         </div>
         <div class="details">
-            <span>Date of Birth:</span> <span><%= request.getSession().getAttribute("dob") %></span>
-        </div>
-        <div class="details">
             <span>Gender:</span> <span><%= request.getSession().getAttribute("gender") %></span>
         </div>
         <div class="details">

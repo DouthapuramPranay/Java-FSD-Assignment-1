@@ -129,7 +129,7 @@ public class RegistrationForm extends HttpServlet {
         response.getWriter().write("""
             <body>
                 <h2>Registration Successful!</h2>
-                <a href="login.html">Go to Login</a>
+                <a href="login.jsp">Go to Login</a>
             </body>
         """);
     }
